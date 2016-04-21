@@ -123,14 +123,13 @@ public class SocialAssistDBHelper extends SQLiteOpenHelper {
         tTime.start();
         tTrigger.start();
         try {
-            Thread.sleep(20);
+            Thread.sleep(25);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         while(tAction.isAlive() || tDetail.isAlive() || tEvent.isAlive() || tSrtDes.isAlive() || tTime.isAlive() || tTrigger.isAlive()){
             try {
-                Log.e("tag", "while");
-                Thread.sleep(50);
+                Thread.sleep(25);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

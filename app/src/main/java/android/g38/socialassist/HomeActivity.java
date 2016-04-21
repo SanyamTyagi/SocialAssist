@@ -43,16 +43,21 @@ public class HomeActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(new Intent(HomeActivity.this, CreateRecipeActivity.class));
+            }
+        });
+
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
                 SocialAssistDBHelper dbHelper = new SocialAssistDBHelper(HomeActivity.this);
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 SocialAssistDBHelper.fakeInsert(db);
                 db.close();
                 dbHelper.close();
-                startActivity(new Intent(HomeActivity.this, CreateRecipeActivity.class));
-
+                return true;
             }
         });
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

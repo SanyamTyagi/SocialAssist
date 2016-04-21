@@ -35,7 +35,8 @@ public class ListAdapter1 extends BaseAdapter {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         this.listHashMap = SocialAssistDBHelper.getListItems(db);
         db.close();
-        this.count = listHashMap.get(DataBaseContracter.EvenEntry.COLUMN_TIME).size() * 2 +1;
+        dbHelper.close();
+        this.count = listHashMap.get(DataBaseContracter.EvenEntry.COLUMN_TIME).size() * 2;
     }
     @Override
     public int getCount() {
@@ -72,7 +73,7 @@ public class ListAdapter1 extends BaseAdapter {
             llEven.setVisibility(View.GONE);
             llOdd.setVisibility(View.GONE);
             ivFirst.setVisibility(View.VISIBLE);
-            ivFirst.setImageResource(R.drawable.ic_list_two);
+            ivFirst.setImageResource(generateSeggestion());
         }
         else if(position == 1){
             llEven.setVisibility(View.GONE);
@@ -105,7 +106,7 @@ public class ListAdapter1 extends BaseAdapter {
     }
 
     private int generateSeggestion(){
-        return getImageResource[new Random().nextInt(10)];
+        return getImageResource[new Random().nextInt(9)];
     }
 
     private void setIvEvent(int position){
