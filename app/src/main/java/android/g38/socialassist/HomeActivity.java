@@ -1,9 +1,14 @@
 package android.g38.socialassist;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.g38.ritik.Database.ListAdapter1;
+import android.g38.ritik.Database.SocialAssistDBHelper;
 import android.g38.sanyam.contentprovider.ForCp;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -12,24 +17,37 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    ProgressDialog dialog;
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        dialog = new ProgressDialog(this);
+        listView = (ListView)findViewById(R.id.lvMain);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SocialAssistDBHelper dbHelper = new SocialAssistDBHelper(HomeActivity.this);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                SocialAssistDBHelper.fakeInsert(db);
+                db.close();
+                dbHelper.close();
                 startActivity(new Intent(HomeActivity.this, CreateRecipeActivity.class));
 
             }
@@ -52,6 +70,13 @@ public class HomeActivity extends AppCompatActivity
             editor.commit();
 
         }
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            }
+        });
+
     }
 
     @Override
@@ -89,6 +114,8 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
+        listView.setAdapter(new ListAdapter1(HomeActivity.this,getLayoutInflater()));
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -114,5 +141,20 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    class LoadList extends AsyncTask<Context, Void, Void>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Context... params) {
+
+            return null;
+        }
     }
 }
