@@ -19,14 +19,7 @@ public class PersonalRecipeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         recyclerView = (RecyclerView)findViewById(R.id.rvMyPersonalRecipes);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(PersonalRecipeActivity.this));
     }
@@ -34,6 +27,6 @@ public class PersonalRecipeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        recyclerView.setAdapter(new PersonalRecipeAdapter(getIntent(),getLayoutInflater()));
+        recyclerView.setAdapter(new PersonalRecipeAdapter(getIntent(),getLayoutInflater(),PersonalRecipeActivity.this ));
     }
 }
